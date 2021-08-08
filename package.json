@@ -15,7 +15,7 @@
         "client": "npm start --prefix client",
         "dev": "concurrently \"npm run server\" \" npm run client\"",
         "stop-win": "Taskkill /IM node.exe /F",
-        "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+        "heroku-postbuild": "cd client && npm install && npm run build"
     },
     "devDependencies": {
         "concurrently": "^6.2.0",

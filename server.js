@@ -1,28 +1,39 @@
+const path = require('path');
 const express = require('express');
-const fileUpload = require('express-fileupload');
+const fileupload = require('express-fileupload');
+const cors = require('cors');
+const helmet = require('helmet');
+const dotenv = require('dotenv');
 
 const app = express();
+dotenv.config({ path: './config/config.env' });
 
-app.use(fileUpload());
+// Body parser
+app.use(express.json());
 
-// Upload Endpoint
-app.post('/upload', (req, res) => {
-    if (req.files === null) {
-        return res.status(400).json({ msg: 'No file uploaded' });
-    }
+//File uploade
+app.use(fileupload());
 
-    const file = req.files.file;
+// Set security headers
+app.use(helmet());
 
-    file.mv(`${__dirname}/client/public/uploads/${file.name}`, (err) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send(err);
-        }
+// Enable CORS
+app.use(cors());
 
-        res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+// Define Routes
+app.use('/images', express.static(__dirname + '/images'));
+app.use('/api/upload', require('./routes/api/upload'));
+
+// Serve static assets in production
+if (process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static(path.join(__dirname, 'client/build')));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
-});
+}
 
-const listener = app.listen(5000, () => {
-    console.log('Your app is listening on port ' + listener.address().port);
-});
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

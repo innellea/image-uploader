@@ -9,11 +9,10 @@
         "helmet": "^4.6.0"
     },
     "scripts": {
-        "start": "node server.js",
-        "server": "npx nodemon server.js",
+        "start": "node server",
+        "server": "nodemon server",
         "client": "npm start --prefix client",
-        "dev": "concurrently \"npm run server\" \" npm run client\"",
-        "stop-win": "Taskkill /IM node.exe /F",
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
         "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
     },
     "devDependencies": {

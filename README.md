@@ -1,0 +1,4 @@
+# THIS PROJECT IS NOT WORKING AS INTENDED WHEN DEPLOYED!
+# WILL CHECK FOR POSSIBLE BUGS IN THE BACKEND WHEN GOT SOME TIME
+# image-uploader
+Image uploader with Node + Express  + React + TailwindCss
